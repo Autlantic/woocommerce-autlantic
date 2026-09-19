@@ -12,7 +12,19 @@
   var el = wp.element.createElement;
 
   var Label = function (props) {
-    return el(props.components.PaymentMethodLabel, { text: title });
+    var mark = data.icon
+      ? el('img', {
+          src: data.icon,
+          alt: '',
+          style: { height: '24px', width: 'auto', marginRight: '8px', verticalAlign: 'middle' },
+        })
+      : null;
+    return el(
+      'span',
+      { style: { display: 'inline-flex', alignItems: 'center' } },
+      mark,
+      el(props.components.PaymentMethodLabel, { text: title }),
+    );
   };
 
   var Content = function () {

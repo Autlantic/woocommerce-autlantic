@@ -28,6 +28,7 @@ final class Plugin
 
         Subscriptions::init();
         Admin_Order_Meta::init();
+        Admin_Tools::init();
     }
 
     /**

@@ -38,7 +38,7 @@ Symlink this directory into `wp-content/plugins/autlantic-billing`, then activat
 
 ```bash
 bash integrations/woocommerce/bin/package.sh
-# writes integrations/woocommerce/dist/autlantic-billing-1.0.0.zip
+# writes integrations/woocommerce/dist/autlantic-billing-1.1.0.zip
 ```
 
 The zip vendors `autlantic/billing` and runs a local smoke check (webhook verify + key mode). Upload it with Plugins → Add New. Do not run `composer install` inside that zip.

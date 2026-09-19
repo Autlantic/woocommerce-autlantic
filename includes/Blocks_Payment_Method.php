@@ -47,6 +47,7 @@ final class Blocks_Payment_Method extends AbstractPaymentMethodType
         return [
             'title' => $this->settings['title'] ?? __('USDC (Autlantic)', 'autlantic-billing'),
             'description' => $this->settings['description'] ?? '',
+            'icon' => AUTLANTIC_WC_PLUGIN_URL . 'assets/img/mark-64.png',
             'supports' => ['products', 'refunds'],
         ];
     }

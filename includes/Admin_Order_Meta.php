@@ -71,5 +71,14 @@ final class Admin_Order_Meta
             echo esc_html__('Open checkout', 'autlantic-billing');
             echo '</a></p>';
         }
+
+        if (current_user_can('manage_woocommerce')) {
+            $sync = wp_nonce_url(
+                admin_url('admin-post.php?action=autlantic_sync_order&order_id=' . $order->get_id()),
+                'autlantic_sync_order_' . $order->get_id(),
+            );
+            echo '<p><a class="button" href="' . esc_url($sync) . '">'
+                . esc_html__('Sync from Autlantic', 'autlantic-billing') . '</a></p>';
+        }
     }
 }

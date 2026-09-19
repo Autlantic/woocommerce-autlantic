@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Autlantic wordmark (light UI / dark-mode background gradient). Fira Sans Black 900, -0.03em tracking. Source: generate-brand-wordmark.py -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4069.52 1392.00" width="407" height="139" fill="none" role="img" aria-label="Autlantic">
+  <defs>
+    <linearGradient id="wm-light-mark-linear" x1="508.69" y1="174.00" x2="3560.83" y2="1218.00" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1b1b1f"/>
+      <stop offset="40%" stop-color="#191e2e"/>
+      <stop offset="100%" stop-color="#26365a"/>
+    </linearGradient>
+    <radialGradient id="wm-light-mark-glow" cx="2034.76" cy="690.43" r="1745.82" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3451b2" stop-opacity="0.26"/>
+      <stop offset="55%" stop-color="#5672cd" stop-opacity="0.09"/>
+      <stop offset="100%" stop-color="#1b1b1f" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="wm-light-text-mask">
+      <rect width="100%" height="100%" fill="black"/>
+      <g fill="white">
+      <path transform="translate(78.26, 1031.00) scale(1,-1)" d="M408 0 381 135H216L190 0H-25L178 696H424L626 0ZM245 279H352L298 552Z"/>
+      <path transform="translate(649.26, 1031.00) scale(1,-1)" d="M524 0H351L344 58Q289 -20 186 -20Q111 -20 74.0 25.0Q37 70 37 150V534H235V176Q235 147 243.5 135.5Q252 124 268 124Q282 124 297.5 135.0Q313 146 326 168V534H524Z"/>
+      <path transform="translate(1185.26, 1031.00) scale(1,-1)" d="M416 26Q385 4 340.5 -8.0Q296 -20 256 -20Q157 -19 109.5 35.5Q62 90 62 197V400H-2V534H62V646L260 669V534H380L360 400H260V199Q260 164 271.0 149.5Q282 135 302 135Q327 135 352 149Z"/>
+      <path transform="translate(1556.26, 1031.00) scale(1,-1)" d="M37 154V744L235 764V162Q235 135 259 135Q270 135 280 139L315 -2Q268 -20 205 -20Q124 -20 80.5 25.5Q37 71 37 154Z"/>
+      <path transform="translate(1826.26, 1031.00) scale(1,-1)" d="M536 111 496 -16Q442 -12 408.0 4.5Q374 21 352 58Q300 -20 191 -20Q112 -20 63.5 27.5Q15 75 15 150Q15 239 81.0 286.0Q147 333 273 333H311V346Q311 386 295.0 400.0Q279 414 234 414Q210 414 172.5 406.5Q135 399 96 386L53 512Q102 532 159.5 543.0Q217 554 264 554Q390 554 447.0 505.5Q504 457 504 357V173Q504 145 511.0 131.5Q518 118 536 111ZM311 151V230H290Q248 230 228.0 215.0Q208 200 208 169Q208 146 220.0 132.5Q232 119 252 119Q270 119 285.5 128.0Q301 137 311 151Z"/>
+      <path transform="translate(2347.26, 1031.00) scale(1,-1)" d="M535 394V0H337V358Q337 388 329.5 399.0Q322 410 307 410Q274 410 240 357V0H42V534H215L229 479Q266 518 304.5 536.0Q343 554 391 554Q458 554 496.5 512.0Q535 470 535 394Z"/>
+      <path transform="translate(2889.26, 1031.00) scale(1,-1)" d="M416 26Q385 4 340.5 -8.0Q296 -20 256 -20Q157 -19 109.5 35.5Q62 90 62 197V400H-2V534H62V646L260 669V534H380L360 400H260V199Q260 164 271.0 149.5Q282 135 302 135Q327 135 352 149Z"/>
+      <path transform="translate(3260.26, 1031.00) scale(1,-1)" d="M240 534V0H42V534ZM252 723Q252 678 220.5 647.5Q189 617 141 617Q93 617 61.5 647.5Q30 678 30 723Q30 768 61.5 798.5Q93 829 141 829Q189 829 220.5 798.5Q252 768 252 723Z"/>
+      <path transform="translate(3512.26, 1031.00) scale(1,-1)" d="M489 483 407 368Q361 405 313 405Q267 405 245.0 373.0Q223 341 223 263Q223 188 245.5 160.5Q268 133 311 133Q334 133 354.0 140.5Q374 148 404 167L489 46Q408 -20 300 -20Q213 -20 149.0 15.5Q85 51 51.0 115.5Q17 180 17 263Q17 347 51.5 413.0Q86 479 149.0 516.5Q212 554 295 554Q409 554 489 483Z"/>
+      </g>
+    </mask>
+  </defs>
+  <rect width="4069.52" height="1392.00" fill="url(#wm-light-mark-linear)" mask="url(#wm-light-text-mask)"/>
+  <rect width="4069.52" height="1392.00" fill="url(#wm-light-mark-glow)" mask="url(#wm-light-text-mask)"/>
+</svg>

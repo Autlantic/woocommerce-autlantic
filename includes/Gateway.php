@@ -35,12 +35,44 @@ final class Gateway extends \WC_Payment_Gateway
             __('Pay with USDC on Base. You will connect a wallet on Autlantic checkout.', 'autlantic-billing'),
         );
         $this->enabled = $this->get_option('enabled', 'no');
+        $this->icon = AUTLANTIC_WC_PLUGIN_URL . 'assets/img/mark-64.png';
 
+        add_filter('woocommerce_gateway_icon', [$this, 'branded_icon'], 10, 2);
         add_action(
             'woocommerce_update_options_payment_gateways_' . $this->id,
             [$this, 'process_admin_options'],
         );
         add_action('woocommerce_thankyou_' . $this->id, [$this, 'thankyou_panel']);
+    }
+
+    /**
+     * @param string $icon
+     * @param string $gateway_id
+     */
+    public function branded_icon($icon, $gateway_id): string
+    {
+        if ($gateway_id !== $this->id) {
+            return (string) $icon;
+        }
+
+        return '<img src="' . esc_url(AUTLANTIC_WC_PLUGIN_URL . 'assets/img/mark-64.png')
+            . '" alt="' . esc_attr__('Autlantic', 'autlantic-billing')
+            . '" style="height:24px;width:auto;vertical-align:middle;" />';
+    }
+
+    public function admin_options(): void
+    {
+        $webhook_url = rest_url('autlantic/v1/webhook');
+        echo '<img src="' . esc_url(AUTLANTIC_WC_PLUGIN_URL . 'assets/img/wordmark.svg')
+            . '" alt="Autlantic" style="height:28px;width:auto;margin:8px 0 4px;" />';
+        echo '<p>' . esc_html__(
+            'USDC on Base. Customers pay on hosted Autlantic checkout. Funds settle to your payout wallet.',
+            'autlantic-billing',
+        ) . '</p>';
+        echo '<p><strong>' . esc_html__('Webhook URL', 'autlantic-billing') . '</strong><br /><code style="user-select:all;">'
+            . esc_html($webhook_url) . '</code></p>';
+        Admin_Tools::render_panel();
+        parent::admin_options();
     }
 
     public function init_form_fields(): void

@@ -35,7 +35,13 @@ final class Webhook_Controller
         $secret = Client_Factory::webhook_secret();
         $verified = Webhook::verifyDetailed($secret, $raw, $signature);
         if (($verified['ok'] ?? false) !== true) {
-            self::log('Webhook rejected: ' . (string) ($verified['reason'] ?? 'unknown'));
+            $reason = (string) ($verified['reason'] ?? 'unknown');
+            self::log('Webhook rejected: ' . $reason);
+            Activity_Log::add([
+                'ok' => false,
+                'type' => '',
+                'message' => 'signature ' . $reason,
+            ]);
 
             return new \WP_Error(
                 'autlantic_webhook_invalid',
@@ -56,6 +62,12 @@ final class Webhook_Controller
         $event_id = (string) ($event['id'] ?? '');
         $type = (string) ($event['type'] ?? '');
         if ($event_id !== '' && self::already_processed($event_id)) {
+            Activity_Log::add([
+                'ok' => true,
+                'type' => $type,
+                'message' => 'duplicate ' . $event_id,
+            ]);
+
             return new \WP_REST_Response(['received' => true, 'duplicate' => true], 200);
         }
 
@@ -64,8 +76,18 @@ final class Webhook_Controller
             if ($event_id !== '') {
                 self::mark_processed($event_id);
             }
+            Activity_Log::add([
+                'ok' => true,
+                'type' => $type,
+                'message' => $event_id !== '' ? $event_id : 'accepted',
+            ]);
         } catch (\Throwable $e) {
             self::log('Webhook handler error: ' . $e->getMessage());
+            Activity_Log::add([
+                'ok' => false,
+                'type' => $type,
+                'message' => $e->getMessage(),
+            ]);
 
             return new \WP_Error(
                 'autlantic_webhook_handler',
