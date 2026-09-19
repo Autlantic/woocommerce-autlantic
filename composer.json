@@ -1,0 +1,29 @@
+{
+  "name": "autlantic/woocommerce",
+  "description": "Autlantic Billing payment gateway for WooCommerce (USDC on Base)",
+  "type": "wordpress-plugin",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Autlantic Limited",
+      "email": "support@autlantic.com",
+      "homepage": "https://autlantic.com"
+    }
+  ],
+  "require": {
+    "php": ">=8.1",
+    "autlantic/billing": "^0.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Autlantic\\WooCommerce\\": "includes/"
+    }
+  },
+  "config": {
+    "sort-packages": true,
+    "optimize-autoloader": true
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "version": "1.0.0"
+}
