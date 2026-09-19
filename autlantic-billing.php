@@ -3,7 +3,7 @@
  * Plugin Name:       Autlantic Billing for WooCommerce
  * Plugin URI:        https://github.com/Autlantic/payments-sdk/tree/main/integrations/woocommerce
  * Description:       Accept USDC on Base via Autlantic Billing. One-time checkout and optional WooCommerce Subscriptions.
- * Version:           1.1.0
+ * Version:           1.1.1
  * Requires at least: 6.2
  * Requires PHP:      8.1
  * Author:            Autlantic Limited
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('AUTLANTIC_WC_VERSION', '1.1.0');
+define('AUTLANTIC_WC_VERSION', '1.1.1');
 define('AUTLANTIC_WC_PLUGIN_FILE', __FILE__);
 define('AUTLANTIC_WC_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('AUTLANTIC_WC_PLUGIN_URL', plugin_dir_url(__FILE__));

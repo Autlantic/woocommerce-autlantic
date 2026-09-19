@@ -4,7 +4,7 @@ Tags: woocommerce, payments, usdc, crypto, subscriptions
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 8.1
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -50,6 +50,9 @@ No. One-time checkout works without it. Install WooCommerce Subscriptions only i
 To the merchant payout wallet configured in the Autlantic portal, or the optional payout address in the gateway settings. Autlantic does not custody the payment.
 
 == Changelog ==
+
+= 1.1.1 =
+* Uninstall removes the webhook activity log.
 
 = 1.1.0 =
 * Merchant tools: live/test badge, test connection, webhook activity, and order sync.
