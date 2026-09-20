@@ -1,88 +1,98 @@
-# Autlantic Billing for WooCommerce
+<p align="center">
+  <img src="https://autlantic.com/brand/autlantic-icon-1024-master.png" alt="Autlantic" width="96" height="96" />
+</p>
 
-Full WooCommerce payment gateway for **USDC on Base** via the hosted Autlantic Billing API.
+<h1 align="center">Autlantic Billing — WooCommerce</h1>
 
-Source of truth: `integrations/woocommerce` in [payments-sdk](https://github.com/Autlantic/payments-sdk). Depends on [`autlantic/billing`](../../sdks/php) (PHP SDK).
+<p align="center">
+  <strong>USDC payments on Base</strong><br />
+  Official WooCommerce payment gateway: payment links, hosted checkout, webhooks, and optional subscriptions.
+</p>
 
-## What it does
+<p align="center">
+  <a href="https://docs.autlantic.com/guide/commerce"><img src="https://img.shields.io/badge/docs-docs.autlantic.com-5672cd?style=flat-square" alt="Docs" /></a>
+  <a href="https://github.com/Autlantic/woocommerce-autlantic/releases"><img src="https://img.shields.io/badge/release-zip-5672cd?style=flat-square" alt="Release zip" /></a>
+  <a href="https://github.com/Autlantic/payments-sdk/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT License" /></a>
+  <a href="https://autlantic.com"><img src="https://img.shields.io/badge/product-autlantic.com-111827?style=flat-square" alt="Autlantic" /></a>
+</p>
 
-| Feature | Behavior |
-|---------|----------|
-| One-time checkout | Creates a single-use payment link, redirects to hosted Autlantic checkout |
-| Webhooks | `POST /wp-json/autlantic/v1/webhook` verifies `x-autlantic-signature`, marks orders paid |
-| Refunds | Invoice refunds via API when an Autlantic invoice id is on the order |
-| WooCommerce Subscriptions | Soft dependency. Autlantic vault renewals are source of truth; WC Subscriptions is catalog/UI |
-| Blocks checkout | Registered payment method |
-| HPOS | Declared compatible |
+---
 
-## Requirements
+Part of [Autlantic Payments SDK](https://github.com/Autlantic/payments-sdk). Depends on [`autlantic/billing`](../../sdks/php). Distribution zip: [woocommerce-autlantic releases](https://github.com/Autlantic/woocommerce-autlantic/releases) (**1.1.1**).
 
-- WordPress 6.2+
-- WooCommerce 8.0+
-- PHP 8.1+ with `ext-curl`, `ext-json`, `ext-hash`
-- Store currency **USD** or **USDC**
-- Autlantic merchant portal API key (`abk_test_…` or `abk_live_…`) and webhook endpoint secret
+USDC settles to your merchant payout wallet. Autlantic does not custody checkout funds.
 
-Optional: [WooCommerce Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/) for subscription products (interval week / month / year only).
+## Why this plugin
 
-## Install (monorepo / development)
+Same hosted Billing API as Magento and the PHP SDK — create a payment link, redirect to hosted checkout, verify `x-autlantic-signature`, mark the Woo order paid. Secrets stay in WooCommerce settings.
+
+## Install
+
+**WordPress zip (recommended for stores)**
+
+```bash
+bash integrations/woocommerce/bin/package.sh
+# → integrations/woocommerce/dist/autlantic-billing-1.1.1.zip
+```
+
+Upload via Plugins → Add New. The zip vendors `autlantic/billing` (no Composer on the store). Or download the [GitHub release](https://github.com/Autlantic/woocommerce-autlantic/releases).
+
+**Monorepo / development**
 
 ```bash
 cd integrations/woocommerce
 composer install
 ```
 
-Symlink this directory into `wp-content/plugins/autlantic-billing`, then activate in wp-admin. The path Composer repo points at `sdks/php`.
+Symlink into `wp-content/plugins/autlantic-billing`, then activate. Requires WordPress **6.2+**, WooCommerce **8.0+**, PHP **8.1+**. Store currency **USD** or **USDC**.
 
-## WordPress zip (no Composer on the store)
+Optional: [WooCommerce Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/) for week / month / year plans (interval 1).
 
-```bash
-bash integrations/woocommerce/bin/package.sh
-# writes integrations/woocommerce/dist/autlantic-billing-1.1.1.zip
-```
-
-The zip vendors `autlantic/billing` and runs a local smoke check (webhook verify + key mode). Upload it with Plugins → Add New. Do not run `composer install` inside that zip.
-
-## Mirror
-
-Source of truth stays in this repo. On tag `integrations/woocommerce/v*`, [`.github/workflows/sync-woocommerce-mirror.yml`](../../.github/workflows/sync-woocommerce-mirror.yml) pushes a Packagist-style tree to `Autlantic/woocommerce-autlantic` and attaches the vendored zip as a GitHub release.
-
-One-time: create the empty public repo `Autlantic/woocommerce-autlantic`, then add Actions secret **`WOOCOMMERCE_MIRROR_TOKEN`** (PAT with `contents:write` on that repo).
-
-## Configure
+## Quick start
 
 1. WooCommerce → Settings → Payments → **Autlantic Billing**
 2. Paste API key and webhook signing secret
-3. Optional payout wallet override (otherwise portal merchant payout is used)
-4. In the Autlantic portal → Webhooks, register:
+3. Portal → Webhooks → register:
 
    `https://your-store.example/wp-json/autlantic/v1/webhook`
 
-   Use the Test or Live endpoint that matches the API key mode.
+4. Place a test order → pay on hosted checkout → order moves to processing / completed
 
-## Checkout flow
+## What it does
 
-**One-time**
+| Feature | Behavior |
+|---------|----------|
+| One-time checkout | Single-use payment link → hosted Autlantic checkout |
+| Webhooks | `POST /wp-json/autlantic/v1/webhook` · activity on the settings screen |
+| Refunds | Invoice refunds when an Autlantic invoice id is on the order; one-time payment-link refunds are manual |
+| WooCommerce Subscriptions | Soft dependency; Autlantic renewals are source of truth |
+| Blocks / HPOS | Registered payment method; HPOS compatible |
 
-1. Customer places order with Autlantic selected
-2. Plugin creates `POST /v1/payment-links` (`maxUses: 1`, metadata `woo_order_id`)
-3. Customer pays on hosted checkout
-4. `payment.paid` webhook → order `processing` / `completed`
+## Webhooks
 
-**Subscriptions** (WooCommerce Subscriptions active)
+Verify `x-autlantic-signature` with the portal endpoint secret that matches the API key mode (Test or Live).
 
-1. Plugin creates `POST /v1/subscriptions` with a temporary wallet; hosted checkout updates the wallet before pay
-2. Customer activates on `/checkout/subscribe/:id`
-3. `subscription.activated` / `invoice.paid` → parent order paid, WC subscription active
-4. Later `invoice.paid` events create renewal orders
-5. Cancel in Woo or Autlantic stays in sync via webhooks / cancel API
+## Documentation
 
-## Development notes
+| | |
+|--|--|
+| [Commerce plugins](https://docs.autlantic.com/guide/commerce) | Woo / Magento / Shopify |
+| [Languages](https://docs.autlantic.com/guide/languages) | All SDK surfaces |
+| [Webhooks](https://docs.autlantic.com/guide/webhooks) | Signature & events |
+| [PHP SDK](https://docs.autlantic.com/api/php) | `autlantic/billing` |
+| [Terms](https://autlantic.com/terms) · [Privacy](https://autlantic.com/privacy) · [Security](https://autlantic.com/security) | Legal |
 
-- Do not put Autlantic platform URLs or secrets in this plugin. Merchants use their own portal credentials.
-- Billing logic stays in billing-api; this plugin only maps Woo orders ↔ Autlantic IDs.
-- For WordPress.org distribution, vendor `autlantic/billing` into the zip (path repo is for monorepo only).
+## Develop
+
+```bash
+cd integrations/woocommerce && composer install
+php bin/smoke.php
+```
+
+On tag `integrations/woocommerce/v*`, [`.github/workflows/sync-woocommerce-mirror.yml`](../../.github/workflows/sync-woocommerce-mirror.yml) syncs [woocommerce-autlantic](https://github.com/Autlantic/woocommerce-autlantic) and attaches the zip.
 
 ## License
 
-MIT · Autlantic Limited (UK company no. 17422039)
+MIT · Operated by **Autlantic Limited** (UK company no. 17422039).
+
+Part of [Autlantic Payments SDK](https://github.com/Autlantic/payments-sdk).
